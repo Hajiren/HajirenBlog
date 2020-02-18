@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hajiren.mapper.WorksMapper">
+    <select id="getWorkById" parameterType="Long" resultType="com.hajiren.bean.Work">
+        select id,type,title,url,summary,cover from works where id=#{id}
+    </select>
+    <select id="getWorksByType" parameterType="String" resultType="com.hajiren.bean.Work">
+        select id,type,title,url,summary,cover from works where type=#{type}
+    </select>
+    <select id="getAllWorks" resultType="com.hajiren.bean.Work">
+        select id,type,title,url,summary,cover from works
+    </select>
+    <select id="getUrlById" parameterType="Long" resultType="String">
+        select url from works where id=#{id}
+    </select>
+</mapper>

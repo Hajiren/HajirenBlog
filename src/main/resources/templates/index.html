@@ -1,0 +1,585 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hajiren Blog - My personal blog based on Tigris"/>
+    <meta name="keywords"
+          content="business card, creative, creative portfolio, cv theme, online resume, personal, portfolio, professional cv, responsive portfolio, resume, resume theme, vcard"/>
+    <meta name="author" content="hajiren"/>
+    <meta name="theme-color" content="#1f1f20">
+
+    <title>八年博客</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/assets/bootstrap/css/bootstrap.min.css">
+
+    <!-- Font Awesome CSS -->
+    <link href="../static/assets/css/all.css" rel="stylesheet" media="screen">
+
+    <link href="../static/assets/css/vendor.css" rel="stylesheet">
+
+    <!-- Tigris styles CSS -->
+    <link href="../static/assets/css/Tigris.css" rel="stylesheet" media="screen">
+
+
+    <link href="../static/assets/css/custom.css" rel="stylesheet" media="screen">
+</head>
+<body>
+
+<!-- Preloader : Start -->
+
+<div id="loading">
+    <div id="loading-center">
+        <div class="spinner-grow" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Preloader : End  -->
+
+
+<div class="menu-wrapper">
+    <button class="hamburger-menu">
+        <span class='hamburger'></span>
+        <span class='hamburger-overlay'></span>
+    </button>
+    <div class="Menu ham-tilt">
+        <ul class="Menu-list">
+            <li class="Menu-list-item">
+                <a href="#home">Home</a>
+            </li>
+            <li class="Menu-list-item">
+                <a href="/blog">Blog</a>
+            </li>
+            <li class="Menu-list-item">
+                <a href="#portfolio">Work</a>
+            </li>
+            <li class="Menu-list-item">
+                <a href="#services">Ability</a>
+            </li>
+            <li class="Menu-list-item">
+                <a href="#contact">Contact</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Home Banner : Start -->
+
+<section id="home" class="home-banner module-image js-height-full">
+
+    <div class="hero-banner-content d-flex align-items-center">
+        <div class="container">
+            <div class="d-table">
+                <div class="hero-banner-left d-table-cell w-60 v-align-middle">
+                    <div class="intro">
+                        <h3>欢迎来到</h3>
+                        <h1><span>八年的个人博客</span></h1>
+                        <p class="typed" data-elements="c++工程师,图形学爱好者,Motion Graphic视频制作者">一个 </p>
+                    </div>
+                </div>
+                <div class="hero-banner-right d-table-cell w-40 v-align-middle">
+                    <div class="hero-right" id="scene">
+                        <img data-depth="0.5" src="../static/assets/images/about.jpg" alt="side-image">
+                        <span data-depth="1"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <canvas class="background"></canvas>
+
+</section>
+
+<!-- Home Banner : End -->
+
+<!-- Blog start -->
+
+<section id="blog" class="module blog module-gray" th:fragment="showBlogInfo">
+    <div class="container">
+
+        <div class="module-header wow fadeInUp">
+            <h2 class="module-title"> Blog </h2>
+            <div class="module-line"></div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-6">
+                <a th:href="@{'/detail/'+${showBlogInfo['ids'][0]}}" class="blogList wow fadeInUp">
+                    <div class="blogList-img">
+                        <img th:src="${showBlogInfo['covers'][0]}" alt="Blog Desc">
+                        <span th:text="${showBlogInfo['categories'][0]}"></span>
+                    </div>
+                    <div class="blogList-desc">
+                        <h3 th:text="${showBlogInfo['titles'][0]}"></h3>
+                        <p th:text="${showBlogInfo['summaries'][0]}"></p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-sm-6">
+                <a th:href="@{'/detail/'+${showBlogInfo['ids'][1]}}" class="blogList wow fadeInUp">
+                    <div class="blogList-img">
+                        <img th:src="${showBlogInfo['covers'][1]}" alt="Blog Desc">
+                        <span th:text="${showBlogInfo['categories'][1]}"></span>
+                    </div>
+                    <div class="blogList-desc">
+                        <h3 th:text="${showBlogInfo['titles'][1]}"></h3>
+                        <p th:text="${showBlogInfo['summaries'][1]}"></p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-sm-12">
+                <a class="custom-btn blog-viewMore" href="/blog">查看更多</a>
+            </div>
+
+        </div>
+    </div><!-- .container -->
+</section>
+
+<!-- Blog end -->
+
+
+<!-- Portfolio start -->
+
+<section id="portfolio" class="module">
+    <div class="container">
+        <div class="row">
+
+            <div class="module-header wow fadeInUp">
+                <h2 class="module-title"> Work </h2>
+                <div class="module-line"></div>
+            </div>
+
+        </div><!-- .row -->
+
+        <!-- Portfolio Filter start-->
+
+        <div class="row">
+
+            <div class="col-sm-12">
+
+                <ul id="filter" class=" wow fadeInUp">
+                    <li class="active" data-group="all">All</li>
+                    <li data-group="video">Video</li>
+                    <li data-group="image">Image</li>
+                </ul>
+
+            </div>
+
+        </div><!-- .row -->
+
+        <!-- Portfolio Filter end -->
+
+        <ul class="list-items-container">
+
+            <li class="list-item" th:attr="data-groups=@{'all '+${work.getType()}}" th:each="work:${works}">
+                <figure>
+                    <div th:switch="${work.getType()}">
+                        <img th:case="image" th:src="${work.getUrl()}" alt="cover">
+                        <img th:case="video" th:src="${work.getCover()}" alt="cover">
+                    </div>
+                    <figcaption>
+                        <div th:switch="${work.getType()}">
+                            <a th:case="image" class="test" th:src="${work.getUrl()}">
+                                <img th:src="${work.getUrl()}">
+                            </a>
+                            <a th:case="video" th:href="${work.getUrl()}"></a>
+                        </div>
+                        <div class="caption-inner">
+                            <h3 class="portfolio-item-title" th:text="${work.getTitle()}"/>
+                            <div class="portfolio-item-desc" th:text="${work.getSummary()}"/>
+                        </div>
+                    </figcaption>
+                </figure>
+            </li>
+
+<!--            <li class="list-item" data-groups="all video">-->
+<!--                <figure>-->
+<!--                    <img src="../static/assets/images/p2-2.jpg" alt="p2">-->
+<!--                    <figcaption>-->
+<!--                        <a href="../static/assets/images/p2-2.jpg" class="simple-ajax-popup"></a>-->
+<!--                        <div class="caption-inner">-->
+<!--                            <h3 class="portfolio-item-title">Some work</h3>-->
+<!--                            <div class="portfolio-item-desc">Video</div>-->
+<!--                        </div>-->
+<!--                    </figcaption>-->
+<!--                </figure>-->
+<!--            </li>-->
+
+<!--            <li class="list-item" data-groups="all image">-->
+<!--                <figure>-->
+<!--                    <img src="../static/assets/images/p3-3.jpg" alt="p3">-->
+<!--                    <figcaption>-->
+<!--                        <a href="../static/assets/images/p3-3.jpg" class="simple-ajax-popup"></a>-->
+<!--                        <div class="caption-inner">-->
+<!--                            <h3 class="portfolio-item-title">Some work</h3>-->
+<!--                            <div class="portfolio-item-desc">Image</div>-->
+<!--                        </div>-->
+<!--                    </figcaption>-->
+<!--                </figure>-->
+<!--            </li>-->
+
+<!--            <li class="list-item" data-groups="all slideshow">-->
+<!--                <figure>-->
+<!--                    <img src="../static/assets/images/p4-4.jpg" alt="p4">-->
+<!--                    <figcaption>-->
+<!--                        <a href="../static/assets/images/p4-4.jpg" class="simple-ajax-popup"></a>-->
+<!--                        <div class="caption-inner">-->
+<!--                            <h3 class="portfolio-item-title">Some work</h3>-->
+<!--                            <div class="portfolio-item-desc">Slideshow</div>-->
+<!--                        </div>-->
+<!--                    </figcaption>-->
+<!--                </figure>-->
+<!--            </li>-->
+
+<!--            <li class="list-item" data-groups="all video">-->
+<!--                <figure>-->
+<!--                    <img src="../static/assets/images/p5-5.jpg" alt="p5">-->
+<!--                    <figcaption>-->
+<!--                        <a href="../static/assets/images/p5-5.jpg" class="simple-ajax-popup"></a>-->
+<!--                        <div class="caption-inner">-->
+<!--                            <h3 class="portfolio-item-title">Some work</h3>-->
+<!--                            <div class="portfolio-item-desc">Video</div>-->
+<!--                        </div>-->
+<!--                    </figcaption>-->
+<!--                </figure>-->
+<!--            </li>-->
+
+<!--            <li class="list-item" data-groups="all image">-->
+<!--                <figure>-->
+<!--                    <img src="../static/assets/images/p6-6.jpg" alt="p6">-->
+<!--                    <figcaption>-->
+<!--                        <a href="../static/assets/images/p6-6.jpg" class="simple-ajax-popup"></a>-->
+<!--                        <div class="caption-inner">-->
+<!--                            <h3 class="portfolio-item-title">Some work</h3>-->
+<!--                            <div class="portfolio-item-desc">Image</div>-->
+<!--                        </div>-->
+<!--                    </figcaption>-->
+<!--                </figure>-->
+<!--            </li>-->
+
+<!--            <li class="list-item" data-groups="all image">-->
+<!--                <figure>-->
+<!--                    <img src="../static/assets/images/p7-7.jpg" alt="p6">-->
+<!--                    <figcaption>-->
+<!--                        <a href="../static/assets/images/p7-7.jpg" class="simple-ajax-popup"></a>-->
+<!--                        <div class="caption-inner">-->
+<!--                            <h3 class="portfolio-item-title">Some work</h3>-->
+<!--                            <div class="portfolio-item-desc">Image</div>-->
+<!--                        </div>-->
+<!--                    </figcaption>-->
+<!--                </figure>-->
+<!--            </li>-->
+
+<!--            <li class="list-item" data-groups="all image">-->
+<!--                <figure>-->
+<!--                    <img src="../static/assets/images/p8-8.jpg" alt="p6">-->
+<!--                    <figcaption>-->
+<!--                        <a href="../static/assets/images/p8-8.jpg" class="simple-ajax-popup"></a>-->
+<!--                        <div class="caption-inner">-->
+<!--                            <h3 class="portfolio-item-title">Some work</h3>-->
+<!--                            <div class="portfolio-item-desc">Image</div>-->
+<!--                        </div>-->
+<!--                    </figcaption>-->
+<!--                </figure>-->
+<!--            </li>-->
+
+<!--            <li class="list-item" data-groups="all image">-->
+<!--                <figure>-->
+<!--                    <img src="../static/assets/images/p9-9.jpg" alt="p6">-->
+<!--                    <figcaption>-->
+<!--                        <a href="../static/assets/images/p9-9.jpg" class="simple-ajax-popup"></a>-->
+<!--                        <div class="caption-inner">-->
+<!--                            <h3 class="portfolio-item-title">Some work</h3>-->
+<!--                            <div class="portfolio-item-desc">Image</div>-->
+<!--                        </div>-->
+<!--                    </figcaption>-->
+<!--                </figure>-->
+<!--            </li>-->
+
+        </ul><!-- .projects-container -->
+
+    </div><!-- .contaier -->
+
+</section>
+
+<!-- Portfolio end -->
+
+<!-- Services start -->
+
+<section id="services" class="module module-gray">
+    <div class="container">
+
+        <div class="module-header wow fadeInUp">
+            <h2 class="module-title"> Ability </h2>
+            <div class="module-line"></div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6 col-lg-4">
+                <div class="iconbox wow fadeInUp">
+                    <div class="iconbox-icon">
+                        <i class="fas fa-cpp"></i>
+                    </div>
+                    <div class="iconbox-text">
+                        <h3 class="iconbox-title">C++开发</h3>
+                        <div class="iconbox-desc">
+                            主要项目经验为各种桌面应用以及OpenGL的编写
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="iconbox wow fadeInUp">
+                    <div class="iconbox-icon">
+                        <i class="fas fa-web"></i>
+                    </div>
+                    <div class="iconbox-text">
+                        <h3 class="iconbox-title">Web开发</h3>
+                        <div class="iconbox-desc">
+                            应用Spring boot, Mybatis等流行框架进行低并发的Web开发
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="iconbox wow fadeInUp" data-wow-delay=".2s">
+                    <div class="iconbox-icon">
+                        <i class="fab fa-opencv"></i>
+                    </div>
+                    <div class="iconbox-text">
+                        <h3 class="iconbox-title">计算机视觉</h3>
+                        <div class="iconbox-desc">
+                            以图像处理技术为知识基础，结合深度学习研究了基于人体的三维建模
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="iconbox wow fadeInUp" data-wow-delay=".4s">
+                    <div class="iconbox-icon">
+                        <i class="far fa-opengl"></i>
+                    </div>
+                    <div class="iconbox-text">
+                        <h3 class="iconbox-title">计算机图形学</h3>
+                        <div class="iconbox-desc">
+                            是目前的主要兴趣，曾经写过PBR材质，当前正在实现各种有趣的渲染方式
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="iconbox wow fadeInUp" data-wow-delay=".6s">
+                    <div class="iconbox-icon">
+                        <i class="fas fa-AE"></i>
+                    </div>
+                    <div class="iconbox-text">
+                        <h3 class="iconbox-title">视频制作</h3>
+                        <div class="iconbox-desc">
+                            以After Effects为工具，设计分镜和脚本，以Motion Graphic的方式生产PV
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="iconbox wow fadeInUp" data-wow-delay=".8s">
+                    <div class="iconbox-icon">
+                        <i class="fas fa-tensorflow"></i>
+                    </div>
+                    <div class="iconbox-text">
+                        <h3 class="iconbox-title">机器学习</h3>
+                        <div class="iconbox-desc">
+                            基于tensorflow，改写现有的框架并调参
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- .row -->
+    </div><!-- .container -->
+</section>
+
+<!-- Services end -->
+
+
+<!--&lt;!&ndash; Testimonial start &ndash;&gt;-->
+
+<!--<div id="testimonial" class="module module-gray text-center">-->
+<!--    <div class="container">-->
+
+<!--        <div class="module-header wow fadeInUp">-->
+<!--            <h2 class="module-title"> Testimony </h2>-->
+<!--            <div class="module-line"></div>-->
+<!--        </div>-->
+
+<!--        <div class="row">-->
+
+<!--            <div class="col-md-8 offset-md-2 wow fadeInUp">-->
+
+<!--                <div class="wow fadeInUp">-->
+<!--                    <div class="module-icon"><i class="fas fa-quote-left"></i></div>-->
+<!--                </div>-->
+
+<!--                <div class="testimonials owl-carousel wow fadeInUp">-->
+<!--                    <div class="single-testimonials">-->
+<!--                        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown-->
+<!--                            aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan-->
+<!--                            helvetica.</p>-->
+<!--                        <h3>Jon Doe, Web Developer</h3>-->
+<!--                    </div>-->
+<!--                    <div class="single-testimonials">-->
+<!--                        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown-->
+<!--                            aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan-->
+<!--                            helvetica.</p>-->
+<!--                        <h3>Jon Doe, Web Developer</h3>-->
+<!--                    </div>-->
+<!--                    <div class="single-testimonials">-->
+<!--                        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown-->
+<!--                            aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan-->
+<!--                            helvetica.</p>-->
+<!--                        <h3>Jon Doe, Web Developer</h3>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--            </div>-->
+
+<!--        </div>&lt;!&ndash; .row &ndash;&gt;-->
+<!--    </div>&lt;!&ndash; .container &ndash;&gt;-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Testimonial end &ndash;&gt;-->
+
+<!--&lt;!&ndash; Hire start&ndash;&gt;-->
+
+<!--<div class="module module-gray text-center">-->
+<!--    <div class="container">-->
+<!--        <div class="module-header wow fadeInUp">-->
+<!--            <h2 class="module-title">I am available for Freelancer-->
+<!--            </h2>-->
+<!--            <div class="module-line"></div>-->
+<!--        </div>-->
+
+<!--        <button class="custom-btn">Hire Me</button>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Hire end &ndash;&gt;-->
+
+<!-- Contact start -->
+
+<section id="contact" class="module ">
+    <div class="container">
+
+        <div class="module-header wow fadeInUp">
+            <h2 class="module-title"> Contact </h2>
+            <div class="module-line"></div>
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-6 offset-md-3">
+
+                <form id="contact-form" method="post">
+                    <div class="ajax-hidden">
+                        <div class="form-group wow fadeInUp">
+                            <label class="sr-only" for="c_name">Name</label>
+                            <input type="text" id="c_name" class="form-control" name="c_name" placeholder="Name"
+                                   required>
+                        </div>
+
+                        <div class="form-group wow fadeInUp" data-wow-delay=".1s">
+                            <label class="sr-only" for="c_email">Email address</label>
+                            <input type="email" id="c_email" class="form-control" name="c_email" placeholder="E-mail"
+                                   required>
+                        </div>
+
+                        <div class="form-group wow fadeInUp" data-wow-delay=".2s">
+                            <textarea class="form-control" id="c_message" name="c_message" rows="7"
+                                      placeholder="Your message" required></textarea>
+                        </div>
+
+                        <button id="contact-btn" type="submit" class="btn btn-block custom-btn wow fadeInUp" data-wow-delay=".3s" onclick="alertSuccess()">发送消息
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div><!-- .row -->
+    </div><!-- .container -->
+</section>
+
+<!-- Contact end -->
+
+<!-- Footer start -->
+
+<footer id="footer" class="module-gray" th:fragment="footer">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-12">
+
+                <a href="#home" class="footer-logo"><h2>八年博客</h2></a>
+
+                <ul class="social-links">
+                    <li><a href="https://github.com/Hajiren" class="wow fadeInUp">Github</a></li>
+                    <li><a href="https://leetcode-cn.com/u/hajiren/" class="wow fadeInUp" data-wow-delay=".1s">LeetCode</a></li>
+                </ul>
+
+                <p class="copyright wow fadeInUp">
+                    © 2020 hajiren, All Rights <a href="http://www.bootstrapmb.com">Reserved </a>.
+                </p>
+
+            </div>
+
+        </div><!-- .row -->
+    </div><!-- .container -->
+</footer>
+
+<!-- Footer end -->
+
+<!-- Scroll-up -->
+
+<div class="scroll-up">
+    <a href="#home" id="scroll-up"><i class="fas fa-arrow-up"></i></a>
+</div>
+
+<!-- Javascript files -->
+
+<script src="../static/assets/js/vendor.js"></script>
+
+<!-- Popper JS -->
+<script src="../static/assets/bootstrap/js/popper.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="../static/assets/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Custom scripts -->
+<script src="../static/assets/js/custom.js"></script>
+<script src="../static/assets/js/custom-shuffle-init.js"></script>
+
+<script type="text/javascript">
+    function alertSuccess(){
+        var name = $('input[name=c_name]').val();
+        alert("谢谢你的消息, "+name+"！ 么么！\n我一般会一周检查一次消息，如有必要会尽快回信。");
+    }
+</script>
+</body>
+</html>

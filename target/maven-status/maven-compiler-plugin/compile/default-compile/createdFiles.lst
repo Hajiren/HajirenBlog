@@ -1,0 +1,17 @@
+com\hajiren\utils\BlogUtils.class
+com\hajiren\controller\IndexController.class
+com\hajiren\service\MessageService.class
+com\hajiren\controller\WorksController.class
+com\hajiren\bean\Message.class
+com\hajiren\bean\Work.class
+com\hajiren\mapper\MessageMapper.class
+com\hajiren\controller\BlogController.class
+com\hajiren\utils\WorkUtils.class
+com\hajiren\mapper\WorksMapper.class
+com\hajiren\utils\JsonUtils$1.class
+com\hajiren\utils\MessageUtils.class
+com\hajiren\configuration\ThymeleafConfig.class
+com\hajiren\bean\Blog.class
+com\hajiren\utils\JsonUtils.class
+com\hajiren\BlogserverApplication.class
+com\hajiren\service\WorksService.class

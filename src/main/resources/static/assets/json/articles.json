@@ -1,0 +1,78 @@
+[
+  {
+    "id": "0",
+    "title":"这个破网站的踩坑历史",
+    "cover":"../static/assets/images/articles/0/cover.png",
+    "avatar":"../static/assets/images/avatar.jpg",
+    "author": "八年",
+    "date": "2020-02-17",
+    "categories": "coding",
+
+    "summary":"第一篇博客也想不到写啥，不如来理一理这一个星期搭这个网站踩过的坑",
+    "articles": [
+      ["h2","1."],
+      ["blockquote","问题：为啥怎么调都会直接跳到一个bootstrap生成的login页面上"],
+      ["sentences", "spring-boot-starter-security会自动控制你的页面到login上，生成用户名和密码让你登陆"],
+      ["br",""],
+
+      ["h2","2."],
+      ["blockquote","问题：读取JSON的储存为对象的方式以及文件路径"],
+      ["sentences","读取Json文件的时候用的是阿里的JSON，路径可以直接用classpath指定，下面两段代码分别对应读取单个对象和对象数组"],
+      ["clike", "//parseObject\nBlog blog = JsonUtils.readJsonFromPath(\"static/assets/json/articles/test.json\", Blog.class);\nClassPathResource resource = new ClassPathResource(path);\nreturn JSON.parseObject(resource.getInputStream(), StandardCharsets.UTF_8, type,\n                    // 自动关闭流\n                    Feature.AutoCloseSource,\n                    // 允许注释\n                    Feature.AllowComment,\n                    // 允许单引号\n                    Feature.AllowSingleQuotes,\n                    // 使用 Big decimal\n                    Feature.UseBigDecimal);"
+      ,"clike0"],
+      ["br",""],
+      ["clike", "//parseArray \npublic static <T> List<T> readJsonFromPath(String path, Type type) throws IOException{\n\n        try {\n            File jsonFile = ResourceUtils.getFile(\"classpath:static/assets/json/articles/test.json\");\n            String json = FileUtils.readFileToString(jsonFile,\"UTF-8\");\n            Type types[]={type};\n            return (List<T>) JSON.parseArray(json,types);\n//            return JSON.parseArray(resource.getInputStream(), StandardCharsets.UTF_8, type,\n        }catch(Exception e){\n            throw e;\n        }\n    }"
+      ,"clike1"],
+      ["br",""],
+
+      ["h2","3."],
+      ["blockquote","问题：我都不好意思提这个问题"],
+      ["sentences", "Java里，字符串之类的对象比较的时候用.equals()"],
+      ["br",""],
+
+      ["h2","4."],
+      ["blockquote","问题：ajaxSubmit处理不跳转的表单提交"],
+      ["sentences", "尚未解决，现在采用的是直接跳转回来的方法，高并发情况下也许会造成服务器负担,代码如下"],
+      ["clike","    @PostMapping(\"/\")\n    public String sentMessage(Model model, HttpSession session,\n                              @RequestParam(\"c_name\") String name,\n                              @RequestParam(\"c_email\") String email,\n                              @RequestParam(\"c_message\") String message) throws Exception{\n        messageService.insertMessage(name,email,message);\n        session.setAttribute(\"sent\",true);\n        return \"redirect:/#contact\";\n    }"
+      ,"clike2"],
+      ["br",""],
+
+      ["h2","5."],
+      ["blockquote","问题：解决数据库中主键id由于删除数据导致的不连续"],
+      ["sentences", "将数据库里的主键id设置为每次从最大值开始递增，简单来说，就是每次插入数据之前先将auto_increment设为1"],
+      ["images","../static/assets/images/articles/0/auto_increment.png"],
+      ["br",""],
+
+      ["h2","6."],
+      ["blockquote","问题：给thymeleaf传入Date对象，转换为指定格式的日期"],
+      ["sentences", "${#dates.format( user.createTime , 'yyyy-MM-dd')}可以解决问题，代码如下"],
+      ["xml","<!-- 列表里显示 createTime -->\n<td th:switch = \"${ user.createTime != null }\" >\n    <div th:case=\"true\" th:text = \"${#dates.format( user.createTime , 'yyyy-MM-dd' )}\" ></div>\n    <div th:case=\"false\" th:text = \"‘---’\" ></div>\n</td>"
+      ,"xml0"],
+      ["br",""]
+    ]
+  },
+  {
+    "id": "1",
+    "title":"菜谱大全",
+    "cover":"../static/assets/images/articles/1/cover.png",
+    "avatar":"../static/assets/images/avatar.jpg",
+    "author": "hajiren",
+    "date": "2020-02-17",
+    "categories": "daily",
+
+    "summary": "纪念一下疫情这一个月里在我手底下死不瞑目的食材们",
+    "articles": [
+      ["h2","1.臭鳜鱼"],
+      ["br",""],
+
+      ["h2","2.可乐饼"],
+      ["br",""],
+
+      ["h2","3.洋葱圈"],
+      ["br",""],
+
+      ["h2","4.毛豆炒干贝虾仁"],
+      ["br",""]
+    ]
+  }
+]
